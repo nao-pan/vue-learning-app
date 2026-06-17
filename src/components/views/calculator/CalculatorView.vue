@@ -2,7 +2,25 @@
 import { useCalculator } from '@/composables/useCalculator'
 const { display, expression, histories, historyCount, press, clearHistories } = useCalculator()
 
-const buttons = ['C', '*', '/', '-', '7', '8', '9', '+', '4', '5', '6', '=', '1', '2', '3', '0']
+const buttons = [
+  'C',
+  '*',
+  '/',
+  '-',
+  '7',
+  '8',
+  '9',
+  '+',
+  '4',
+  '5',
+  '6',
+  '=',
+  '1',
+  '2',
+  '3',
+  '.',
+  '0',
+]
 const isOperatorButton = (button) => {
   return ['+', '-', '*', '/'].includes(button)
 }

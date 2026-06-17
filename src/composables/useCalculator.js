@@ -38,6 +38,10 @@ export function useCalculator() {
       return
     }
 
+    if (isDecimalPoint(button)) {
+      handleDecimalPoint()
+    }
+
     if (isOperator(button)) {
       handleOperator(button)
       return
@@ -61,6 +65,10 @@ export function useCalculator() {
     return !isNaN(button)
   }
 
+  const isDecimalPoint = (button) => {
+    return button === '.'
+  }
+
   const isOperator = (button) => {
     return ['+', '-', '*', '/'].includes(button)
   }
@@ -77,6 +85,14 @@ export function useCalculator() {
     }
 
     display.value += button
+  }
+
+  const handleDecimalPoint = () => {
+    if (display.value.includes('.')) {
+      return
+    }
+
+    display.value += '.'
   }
 
   const handleOperator = (button) => {
