@@ -20,10 +20,19 @@ export function useCalculator() {
     return histories.value.length
   })
 
+  const expression = computed(() => {
+    if (firstNumber.value === null) {
+      return ''
+    }
+
+    return '${firstNumber.value} ${operator.value}'
+  })
+
   /**
    * Public Method
    */
   const press = (button) => {
+    console.log('押された:', button)
     if (isNumber(button)) {
       handleNumber(button)
       return
@@ -134,8 +143,7 @@ export function useCalculator() {
 
   return {
     display,
-    firstNumber,
-    operator,
+    expression,
     histories,
     historyCount,
     press,

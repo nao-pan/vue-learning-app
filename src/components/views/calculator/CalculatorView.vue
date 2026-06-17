@@ -1,17 +1,26 @@
 <script setup>
 import { useCalculator } from '@/composables/useCalculator'
-const { display, firstNumber, operator, histories, historyCount, press } = useCalculator
+const { display, expression, histories, historyCount, press } = useCalculator()
 
 const buttons = ['C', '*', '/', '-', '7', '8', '9', '+', '4', '5', '6', '=', '1', '2', '3', '0']
+const isOperatorButton = (button) => {
+  return ['+', '-', '*', '/'].includes(button)
+}
 </script>
 
 <template>
   <div class="calculator">
     <h1>電卓</h1>
 
-    <small>{{ firstNumber }} {{ operator }}</small>
+    <div class="display">
+      <div class="sub-display">
+        {{ expression }}
+      </div>
 
-    <div class="display">{{ display }}</div>
+      <div class="main-display">
+        {{ display }}
+      </div>
+    </div>
 
     <div class="button-grid">
       <button
@@ -19,7 +28,7 @@ const buttons = ['C', '*', '/', '-', '7', '8', '9', '+', '4', '5', '6', '=', '1'
         :key="button"
         @click="press(button)"
         :class="{
-          operator: isOperator(button),
+          operator: isOperatorButton(button),
           equal: button === '=',
           clear: button === 'C',
         }"
@@ -57,6 +66,24 @@ const buttons = ['C', '*', '/', '-', '7', '8', '9', '+', '4', '5', '6', '=', '1'
   text-align: right;
 
   border-radius: 8px;
+
+  min-height: 80px;
+}
+
+.sub-display {
+  font-size: 0.8rem;
+
+  color: #aaa;
+
+  text-align: left;
+
+  min-height: 20px;
+}
+
+.main-display {
+  font-size: 2rem;
+
+  text-align: right;
 }
 
 .button-grid {
