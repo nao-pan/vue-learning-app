@@ -11,11 +11,11 @@
       </li>
 
       <li>
-        <RouterLink to="/todo"> ToDoリスト </RouterLink>
+        <RouterLink to="/calculator"> 電卓 </RouterLink>
       </li>
 
       <li>
-        <RouterLink to="/calculator"> 電卓 </RouterLink>
+        <RouterLink to="/todo"> ToDoリスト </RouterLink>
       </li>
     </ul>
 

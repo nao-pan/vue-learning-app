@@ -25,7 +25,7 @@ export function useCalculator() {
       return ''
     }
 
-    return '${firstNumber.value} ${operator.value}'
+    return `${firstNumber.value} ${operator.value}`
   })
 
   /**
@@ -66,6 +66,11 @@ export function useCalculator() {
   }
 
   const handleNumber = (button) => {
+    if (display.value === '0では割れません') {
+      display.value = button
+      return
+    }
+
     if (display.value === '0') {
       display.value = button
       return
@@ -89,6 +94,14 @@ export function useCalculator() {
   const calculate = () => {
     const secondNumber = Number(display.value)
 
+    // バリデーション
+    if (operator.value === '/' && secondNumber === 0) {
+      display.value = '0では割れません'
+      firstNumber.value = null
+      operator.value = null
+      return
+    }
+
     let result
     switch (operator.value) {
       case '+':
@@ -111,6 +124,10 @@ export function useCalculator() {
     firstNumber.value = null
     operator.value = null
     return
+  }
+
+  const clearHistories = () => {
+    histories.value = []
   }
 
   /**
@@ -147,5 +164,6 @@ export function useCalculator() {
     histories,
     historyCount,
     press,
+    clearHistories,
   }
 }

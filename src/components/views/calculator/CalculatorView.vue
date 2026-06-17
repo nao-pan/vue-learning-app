@@ -1,6 +1,6 @@
 <script setup>
 import { useCalculator } from '@/composables/useCalculator'
-const { display, expression, histories, historyCount, press } = useCalculator()
+const { display, expression, histories, historyCount, press, clearHistories } = useCalculator()
 
 const buttons = ['C', '*', '/', '-', '7', '8', '9', '+', '4', '5', '6', '=', '1', '2', '3', '0']
 const isOperatorButton = (button) => {
@@ -38,11 +38,17 @@ const isOperatorButton = (button) => {
     </div>
     <h2>計算履歴 {{ historyCount }}件</h2>
 
-    <ul class="history-list">
-      <li v-for="(history, index) in histories" :key="index">
-        {{ history }}
-      </li>
-    </ul>
+    <div v-if="histories.length">
+      <button @click="clearHistories">履歴削除</button>
+      <ul class="history-list">
+        <li v-for="(history, index) in histories" :key="index">
+          {{ history }}
+        </li>
+      </ul>
+    </div>
+
+    <p v-else>履歴はありません</p>
+
     <RouterLink to="/"> TOPへ戻る </RouterLink>
   </div>
 </template>
