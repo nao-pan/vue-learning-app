@@ -5,11 +5,16 @@ export function useTodos() {
   const todoText = ref('')
   const todos = ref([])
   const filterType = ref('all')
+  const editingId = ref(null)
+  const editingText = ref('')
+  const errorMessage = ref('')
 
   const addTodo = () => {
     if (!todoText.value.trim()) {
+      errorMessage.value = 'Todoを入力してください'
       return
     }
+    errorMessage.value = ''
 
     todos.value.push({
       id: Date.now(),
@@ -21,6 +26,35 @@ export function useTodos() {
 
   const deleteTodo = (id) => {
     todos.value = todos.value.filter((todo) => todo.id !== id)
+  }
+
+  const startEdit = (todo) => {
+    editingId.value = todo.id
+    editingText.value = todo.text
+  }
+
+  const saveEdit = (id) => {
+    const todo = todos.value.find((todo) => todo.id === id)
+
+    if (!todo) {
+      return
+    }
+    if (!editingText.value.trim()) {
+      errorMessage.value = 'Todoを入力してください'
+      return
+    }
+    editingText.value = ''
+
+    todo.text = editingText.value
+
+    editingId.value = null
+    editingText.value = ''
+  }
+
+  const cancelEdit = () => {
+    editingId.value = null
+    editingText.value = ''
+    errorMessage.value = ''
   }
 
   const filteredTodos = computed(() => {
@@ -82,5 +116,11 @@ export function useTodos() {
     addTodo,
     deleteTodo,
     changeFilter,
+    editingId,
+    editingText,
+    startEdit,
+    saveEdit,
+    cancelEdit,
+    errorMessage,
   }
 }

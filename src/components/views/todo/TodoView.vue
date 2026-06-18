@@ -11,6 +11,12 @@ const {
   addTodo,
   deleteTodo,
   changeFilter,
+  editingId,
+  editingText,
+  startEdit,
+  saveEdit,
+  cancelEdit,
+  errorMessage,
 } = useTodos()
 </script>
 
@@ -21,14 +27,19 @@ const {
     <input v-model="todoText" @keyup.enter="addTodo" />
 
     <button @click="addTodo">追加</button>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
     <ul>
       <li v-for="todo in filteredTodos" :key="todo.id">
         <input type="checkbox" v-model="todo.completed" />
-        <span :class="{ completed: todo.completed }">
+        <span v-if="editingId !== todo.id" :class="{ completed: todo.completed }">
           {{ todo.text }}
         </span>
+        <input v-else v-model="editingText" @keyup.enter="saveEdit(todo.id)" />
 
+        <button v-if="editingId !== todo.id" @click="startEdit(todo)">編集</button>
+        <button v-else @click="saveEdit(todo.id)">保存</button>
+        <button v-if="editingId === todo.id" @click="cancelEdit">キャンセル</button>
         <button @click="deleteTodo(todo.id)">削除</button>
       </li>
     </ul>
@@ -54,5 +65,9 @@ const {
 .completed {
   text-decoration: line-through;
   color: gray;
+}
+
+.error-message {
+  color: red;
 }
 </style>
