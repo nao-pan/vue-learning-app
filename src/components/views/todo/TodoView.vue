@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const todoText = ref('')
 const todos = ref([])
@@ -17,6 +17,7 @@ const addTodo = () => {
   })
   todoText.value = ''
 }
+
 const deleteTodo = (id) => {
   todos.value = todos.value.filter((todo) => todo.id !== id)
 }
@@ -47,6 +48,24 @@ const incompleteCount = computed(() => {
   return todos.value.filter((todo) => {
     return !todo.completed
   }).length
+})
+
+watch(
+  todos,
+  (newTodos) => {
+    localStorage.setItem('todos', JSON.stringify(newTodos))
+  },
+  {
+    deep: true,
+  },
+)
+
+onMounted(() => {
+  const savedTodos = localStorage.getItem('todos')
+
+  if (savedTodos) {
+    todos.value = JSON.parse(savedTodos)
+  }
 })
 </script>
 
@@ -82,6 +101,7 @@ const incompleteCount = computed(() => {
     <RouterLink to="/"> TOPへ戻る </RouterLink>
   </div>
 </template>
+
 <style>
 .completed {
   text-decoration: line-through;
