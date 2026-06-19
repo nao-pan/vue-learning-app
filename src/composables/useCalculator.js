@@ -1,4 +1,5 @@
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import { useLocalStorage } from './useLocalStorage'
 
 /**
  * 電卓の状態管理を行うcomposable
@@ -11,7 +12,7 @@ export function useCalculator() {
   const display = ref('0')
   const firstNumber = ref(null)
   const operator = ref(null)
-  const histories = ref([])
+  const histories = useLocalStorage('calculator_histories', [])
 
   /**
    * computed
@@ -146,33 +147,34 @@ export function useCalculator() {
     histories.value = []
   }
 
-  /**
-   * Watchers
-   * localStorageへ履歴を永続化
-   */
-  watch(
-    () => histories.value,
-    (newHistories) => {
-      localStorage.setItem('calculator_histories', JSON.stringify(newHistories))
-    },
+  // useLocalStorageへ以下切り出し
+  // /**
+  //  * Watchers
+  //  * localStorageへ履歴を永続化
+  //  */
+  // watch(
+  //   () => histories.value,
+  //   (newHistories) => {
+  //     localStorage.setItem('calculator_histories', JSON.stringify(newHistories))
+  //   },
 
-    // 配列のpushは参照が変わらないため
-    // deep:trueで監視する
-    {
-      deep: true,
-    },
-  )
+  //   // 配列のpushは参照が変わらないため
+  //   // deep:trueで監視する
+  //   {
+  //     deep: true,
+  //   },
+  // )
 
-  /**
-   * Lifecycle Hooks
-   * 初回表示時に保存済み履歴を復元
-   */
-  onMounted(() => {
-    const savedHistories = localStorage.getItem('calculator_histories')
-    if (savedHistories) {
-      histories.value = JSON.parse(savedHistories)
-    }
-  })
+  // /**
+  //  * Lifecycle Hooks
+  //  * 初回表示時に保存済み履歴を復元
+  //  */
+  // onMounted(() => {
+  //   const savedHistories = localStorage.getItem('calculator_histories')
+  //   if (savedHistories) {
+  //     histories.value = JSON.parse(savedHistories)
+  //   }
+  // })
 
   return {
     display,

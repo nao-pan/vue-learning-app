@@ -1,9 +1,10 @@
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { FILTER_TYPES } from '@/constants/filterTypes'
+import { useLocalStorage } from './useLocalStorage'
 
 export function useTodos() {
   const todoText = ref('')
-  const todos = ref([])
+  const todos = useLocalStorage('todos', [])
   const filterType = ref('all')
   const editingId = ref(null)
   const editingText = ref('')
@@ -89,23 +90,24 @@ export function useTodos() {
     filterType.value = type
   }
 
-  watch(
-    todos,
-    (newTodos) => {
-      localStorage.setItem('todos', JSON.stringify(newTodos))
-    },
-    {
-      deep: true,
-    },
-  )
+  // useLocalStorageへ以下切り出し
+  // watch(
+  //   todos,
+  //   (newTodos) => {
+  //     localStorage.setItem('todos', JSON.stringify(newTodos))
+  //   },
+  //   {
+  //     deep: true,
+  //   },
+  // )
 
-  onMounted(() => {
-    const savedTodos = localStorage.getItem('todos')
+  // onMounted(() => {
+  //   const savedTodos = localStorage.getItem('todos')
 
-    if (savedTodos) {
-      todos.value = JSON.parse(savedTodos)
-    }
-  })
+  //   if (savedTodos) {
+  //     todos.value = JSON.parse(savedTodos)
+  //   }
+  // })
 
   return {
     todoText,
