@@ -1,7 +1,6 @@
 <script setup>
 import { useTodos } from '@/composables/useTodos'
 import { FILTER_TYPES } from '@/constants/filterTypes'
-
 const {
   todoText,
   filteredTodos,

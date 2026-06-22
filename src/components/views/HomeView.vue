@@ -1,3 +1,9 @@
+<script setup>
+import { useTheme } from '@/composables/useTheme'
+
+const { modeLabel, toggleTheme } = useTheme()
+</script>
+
 <template>
   <div>
     <h1>Vue Learning App</h1>
@@ -23,7 +29,7 @@
 
     <ul>
       <li>
-        <RouterLink to="/dark-mode"> ダークモード </RouterLink>
+        <button @click="toggleTheme">{{ modeLabel }}</button>
       </li>
 
       <li>
@@ -32,3 +38,11 @@
     </ul>
   </div>
 </template>
+<style>
+.dark {
+  background: #222;
+  color: white;
+
+  min-height: 100vh;
+}
+</style>

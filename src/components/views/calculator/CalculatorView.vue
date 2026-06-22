@@ -1,5 +1,6 @@
 <script setup>
 import { useCalculator } from '@/composables/useCalculator'
+
 const { display, expression, histories, historyCount, press, clearHistories } = useCalculator()
 
 const buttons = [
@@ -27,47 +28,49 @@ const isOperatorButton = (button) => {
 </script>
 
 <template>
-  <div class="calculator">
-    <h1>電卓</h1>
+  <div>
+    <div class="calculator">
+      <h1>電卓</h1>
 
-    <div class="display">
-      <div class="sub-display">
-        {{ expression }}
+      <div class="display">
+        <div class="sub-display">
+          {{ expression }}
+        </div>
+
+        <div class="main-display">
+          {{ display }}
+        </div>
       </div>
 
-      <div class="main-display">
-        {{ display }}
+      <div class="button-grid">
+        <button
+          v-for="button in buttons"
+          :key="button"
+          @click="press(button)"
+          :class="{
+            operator: isOperatorButton(button),
+            equal: button === '=',
+            clear: button === 'C',
+          }"
+        >
+          {{ button }}
+        </button>
       </div>
+      <h2>計算履歴 {{ historyCount }}件</h2>
+
+      <div v-if="histories.length">
+        <button @click="clearHistories">履歴削除</button>
+        <ul class="history-list">
+          <li v-for="(history, index) in histories" :key="index">
+            {{ history }}
+          </li>
+        </ul>
+      </div>
+
+      <p v-else>履歴はありません</p>
+
+      <RouterLink to="/"> TOPへ戻る </RouterLink>
     </div>
-
-    <div class="button-grid">
-      <button
-        v-for="button in buttons"
-        :key="button"
-        @click="press(button)"
-        :class="{
-          operator: isOperatorButton(button),
-          equal: button === '=',
-          clear: button === 'C',
-        }"
-      >
-        {{ button }}
-      </button>
-    </div>
-    <h2>計算履歴 {{ historyCount }}件</h2>
-
-    <div v-if="histories.length">
-      <button @click="clearHistories">履歴削除</button>
-      <ul class="history-list">
-        <li v-for="(history, index) in histories" :key="index">
-          {{ history }}
-        </li>
-      </ul>
-    </div>
-
-    <p v-else>履歴はありません</p>
-
-    <RouterLink to="/"> TOPへ戻る </RouterLink>
   </div>
 </template>
 
