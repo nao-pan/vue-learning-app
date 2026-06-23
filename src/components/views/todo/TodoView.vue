@@ -75,13 +75,19 @@ const cancelDelete = () => {
       </li>
     </ul>
 
-    <ConfirmModal
-      :show="showModal"
-      :message="confirmMessage"
-      @confirm="confirmDelete"
-      @cancel="cancelDelete"
-      @close="cancelDelete"
-    />
+    <ConfirmModal :show="showModal" @close="cancelDelete">
+      <template #header>
+        <h2>Todo削除</h2>
+      </template>
+
+      <p>{{ confirmMessage }}</p>
+
+      <template #footer>
+        <button @click="confirmDelete">削除</button>
+
+        <button @click="cancelDelete">キャンセル</button>
+      </template>
+    </ConfirmModal>
 
     <p>
       全件: {{ totalCount }}件 <button @click="changeFilter(FILTER_TYPES.ALL)">すべて表示</button>

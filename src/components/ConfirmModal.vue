@@ -2,7 +2,6 @@
 import { onMounted, onUnmounted } from 'vue'
 defineProps({
   show: Boolean,
-  message: String,
 })
 
 const emit = defineEmits(['confirm', 'cancel', 'close'])
@@ -25,11 +24,18 @@ onUnmounted(() => {
   <div v-if="show" class="modal-overlay" @click="emit('cancel')">
     <div class="modal" @click.stop>
       <button class="close-button" @click="emit('close')">x</button>
-      <p>{{ message }}</p>
 
-      <button @click="emit('confirm')">削除</button>
+      <div class="modal-header">
+        <slot name="header" />
+      </div>
 
-      <button @click="emit('cancel')">キャンセル</button>
+      <div class="modal-body">
+        <slot />
+      </div>
+
+      <div class="modal-footer">
+        <slot name="footer" />
+      </div>
     </div>
   </div>
 </template>
