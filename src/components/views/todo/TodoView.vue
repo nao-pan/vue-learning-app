@@ -2,7 +2,7 @@
 import { useTodos } from '@/composables/useTodos'
 import ConfirmModal from '@/components/ConfirmModal.vue'
 import { FILTER_TYPES } from '@/constants/filterTypes'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const {
   todoText,
@@ -24,6 +24,15 @@ const {
 const showModal = ref(false)
 
 const deleteTargetId = ref(null)
+const deleteTargetTodo = ref(null)
+
+const confirmMessage = computed(() => {
+  if (!deleteTargetTodo.value) {
+    return ''
+  }
+
+  return `「${deleteTargetTodo.value.text}」を削除しますか？`
+})
 
 const openDeleteModal = (id) => {
   deleteTargetId.value = id
@@ -66,7 +75,13 @@ const cancelDelete = () => {
       </li>
     </ul>
 
-    <ConfirmModal :show="showModal" @confirm="confirmDelete" @cancel="cancelDelete" />
+    <ConfirmModal
+      :show="showModal"
+      :message="confirmMessage"
+      @confirm="confirmDelete"
+      @cancel="cancelDelete"
+      @close="cancelDelete"
+    />
 
     <p>
       全件: {{ totalCount }}件 <button @click="changeFilter(FILTER_TYPES.ALL)">すべて表示</button>

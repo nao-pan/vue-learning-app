@@ -33,4 +33,8 @@ const emit = defineEmits(['confirm', 'cancel', 'close'])
   background: white;
   padding: 20px;
 }
+
+.close-button {
+  float: right;
+}
 </style>
