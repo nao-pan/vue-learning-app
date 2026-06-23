@@ -1,10 +1,25 @@
 <script setup>
+import { onMounted, onUnmounted } from 'vue'
 defineProps({
   show: Boolean,
   message: String,
 })
 
 const emit = defineEmits(['confirm', 'cancel', 'close'])
+
+const handleKeydown = (event) => {
+  if (event.key === 'Escape') {
+    emit('cancel')
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 <template>
   <div v-if="show" class="modal-overlay" @click="emit('cancel')">
