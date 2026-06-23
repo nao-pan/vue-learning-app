@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   show: Boolean,
+  message: String,
 })
 
 const emit = defineEmits(['confirm', 'cancel'])
