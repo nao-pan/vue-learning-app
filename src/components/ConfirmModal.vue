@@ -7,8 +7,8 @@ defineProps({
 const emit = defineEmits(['confirm', 'cancel', 'close'])
 </script>
 <template>
-  <div v-if="show" class="modal-overlay">
-    <div class="modal">
+  <div v-if="show" class="modal-overlay" @click="emit('cancel')">
+    <div class="modal" @click.stop>
       <button class="close-button" @click="emit('close')">x</button>
       <p>{{ message }}</p>
 
