@@ -1,6 +1,9 @@
 <script setup>
 import { useTodos } from '@/composables/useTodos'
+import ConfirmModal from '@/components/ConfirmModal.vue'
 import { FILTER_TYPES } from '@/constants/filterTypes'
+import { ref } from 'vue'
+
 const {
   todoText,
   filteredTodos,
@@ -17,6 +20,26 @@ const {
   cancelEdit,
   errorMessage,
 } = useTodos()
+
+const showModal = ref(false)
+
+const deleteTargetId = ref(null)
+
+const openDeleteModal = (id) => {
+  deleteTargetId.value = id
+  showModal.value = true
+}
+
+const confirmDelete = () => {
+  deleteTodo(deleteTargetId.value)
+  showModal.value = false
+  deleteTargetId.value = null
+}
+
+const cancelDelete = () => {
+  showModal.value = false
+  deleteTargetId.value = null
+}
 </script>
 
 <template>
@@ -39,9 +62,11 @@ const {
         <button v-if="editingId !== todo.id" @click="startEdit(todo)">編集</button>
         <button v-else @click="saveEdit(todo.id)">保存</button>
         <button v-if="editingId === todo.id" @click="cancelEdit">キャンセル</button>
-        <button @click="deleteTodo(todo.id)">削除</button>
+        <button @click="openDeleteModal(todo.id)">削除</button>
       </li>
     </ul>
+
+    <ConfirmModal :show="showModal" @confirm="confirmDelete" @cancel="cancelDelete" />
 
     <p>
       全件: {{ totalCount }}件 <button @click="changeFilter(FILTER_TYPES.ALL)">すべて表示</button>
