@@ -4,12 +4,13 @@ defineProps({
   message: String,
 })
 
-const emit = defineEmits(['confirm', 'cancel'])
+const emit = defineEmits(['confirm', 'cancel', 'close'])
 </script>
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal">
-      <p>本当に削除しますか？</p>
+      <button class="close-button" @click="emit('close')">x</button>
+      <p>{{ message }}</p>
 
       <button @click="emit('confirm')">削除</button>
 
