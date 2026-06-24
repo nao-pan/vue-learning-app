@@ -4,7 +4,7 @@ defineProps({
   show: Boolean,
 })
 
-const emit = defineEmits(['confirm', 'cancel', 'close'])
+const emit = defineEmits(['close'])
 
 const handleKeydown = (event) => {
   if (event.key === 'Escape') {

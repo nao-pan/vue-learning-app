@@ -23,6 +23,10 @@ const { modeLabel, toggleTheme } = useTheme()
       <li>
         <RouterLink to="/todo"> ToDoリスト </RouterLink>
       </li>
+
+      <li>
+        <RouterLink to="/user">ユーザー一覧</RouterLink>
+      </li>
     </ul>
 
     <h2>UI機能</h2>
@@ -31,6 +35,7 @@ const { modeLabel, toggleTheme } = useTheme()
       <li>
         <button @click="toggleTheme">{{ modeLabel }}</button>
       </li>
+
 
       <li>
         <RouterLink to="/breadcrumb"> パンくずリスト </RouterLink>

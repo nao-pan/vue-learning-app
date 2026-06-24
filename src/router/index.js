@@ -1,9 +1,9 @@
 import BreadcrumbView from '@/components/views/breadcrumb/BreadcrumbView.vue'
 import CalculatorView from '@/components/views/calculator/CalculatorView.vue'
 import CounterView from '@/components/views/counter/CounterView.vue'
-import DarkModeView from '@/components/views/dark-mode/DarkModeView.vue'
 import HomeView from '@/components/views/HomeView.vue'
 import TodoView from '@/components/views/todo/TodoView.vue'
+import UserView from '@/components/views/user/UserView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -24,8 +24,8 @@ const routes = [
     component: CalculatorView,
   },
   {
-    path: '/dark-mode',
-    component: DarkModeView,
+    path: '/user',
+    component: UserView,
   },
   {
     path: '/breadcrumb',
