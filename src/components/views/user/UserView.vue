@@ -4,6 +4,7 @@ import { onMounted } from 'vue';
 
 const {
   users,
+  loading,
   fetchUsers,
 } = useUsers()
 
@@ -14,7 +15,10 @@ onMounted(() => {
 <template>
   <h1>ユーザー一覧</h1>
 
-  <ul>
+  <div v-if="loading">
+    Loading...
+  </div>
+  <ul v-else>
     <li v-for="user in users" :key="user.id">
       {{ user.name }}
     </li>
